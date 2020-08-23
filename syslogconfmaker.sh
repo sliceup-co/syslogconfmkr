@@ -66,76 +66,81 @@ loglist_array=($files)
         done
 
 echo " " >> /etc/rsyslog.d/slicesys.conf
-echo "########## Create Kafka files ################" >> /etc/rsyslog.d/slicesys.conf
-echo " " >> /etc/rsyslog.d/slicesys.conf
-files=$(ls  /opt/sliceup/executables/kafka_2.12-2.4.1/logs/*.log | xargs -n1 basename)
 
-loglist_array=($files)
-    for filelist in "${loglist_array[@]}" 
-        do 
-              
-		 #add kafka to name if missing
- 		   clean_name=$(echo $filelist | sed 's/-//'g | sed 's/.log//'g)
-                   kafka_check=$(echo "$clean_name" | grep kaf)
-                if [ -z "$kafka_check" ]
-               		 then
-                      		kafka_plus=$(echo "kafka$clean_name")
-	                 else
-                      kafka_plus=$(echo $clean_name)
-                fi
-
-                echo "### $filelist" >> /etc/rsyslog.d/slicesys.conf
-
-                echo "\$InputFileName /opt/sliceup/executables/kafka_2.12-2.4.1/logs/$filelist" >> /etc/rsyslog.d/slicesys.conf
-
-                echo "\$InputFileTag $kafka_plus:" >> /etc/rsyslog.d/slicesys.conf
-
-                echo "\$InputFileStateFile /tmp/$clean_name" >> /etc/rsyslog.d/slicesys.conf
-
-                echo "\$InputFileSeverity info" >> /etc/rsyslog.d/slicesys.conf
-
-                echo "\$InputFileFacility local3" >> /etc/rsyslog.d/slicesys.conf
-
-                echo "\$InputRunFileMonitor" >> /etc/rsyslog.d/slicesys.conf
-		echo " " >> /etc/rsyslog.d/slicesys.conf
-        done
-
-echo "#########Device is Prime config Postgress & GrafanaLogs##########" >> /etc/rsyslog.d/slicesys.conf
-echo " " >> /etc/rsyslog.d/slicesys.conf
 
 
 	if [ "$a" = "Y" ] || [ "$a" = "y" ]; then
-	 
-         echo "######PostGres" >> /etc/rsyslog.d/slicesys.conf
-        
-                echo "\$InputFileName /var/log/postgresql/postgresql-10-main.log" >> /etc/rsyslog.d/slicesys.conf
 
-                echo "\$InputFileTag postgres10:" >> /etc/rsyslog.d/slicesys.conf
 
-                echo "\$InputFileStateFile /tmp/postgres10" >> /etc/rsyslog.d/slicesys.conf
+            echo "########## Create Kafka files ################" >> /etc/rsyslog.d/slicesys.conf
+            echo " " >> /etc/rsyslog.d/slicesys.conf
+            files=$(ls  /opt/sliceup/executables/kafka_2.12-2.4.1/logs/*.log | xargs -n1 basename)
 
-                echo "\$InputFileSeverity info" >> /etc/rsyslog.d/slicesys.conf
+            loglist_array=($files)
+                for filelist in "${loglist_array[@]}" 
+                    do 
+                          
+		             #add kafka to name if missing
+             		   clean_name=$(echo $filelist | sed 's/-//'g | sed 's/.log//'g)
+                               kafka_check=$(echo "$clean_name" | grep kaf)
+                            if [ -z "$kafka_check" ]
+                           		 then
+                                  		kafka_plus=$(echo "kafka$clean_name")
+	                             else
+                                  kafka_plus=$(echo $clean_name)
+                            fi
 
-                echo "\$InputFileFacility local3" >> /etc/rsyslog.d/slicesys.conf
+                            echo "### $filelist" >> /etc/rsyslog.d/slicesys.conf
 
-                echo "\$InputRunFileMonitor" >> /etc/rsyslog.d/slicesys.conf
-		        echo " " >> /etc/rsyslog.d/slicesys.conf
-           
+                            echo "\$InputFileName /opt/sliceup/executables/kafka_2.12-2.4.1/logs/$filelist" >> /etc/rsyslog.d/slicesys.conf
 
-        echo "########Grafana" >> /etc/rsyslog.d/slicesys.conf
+                            echo "\$InputFileTag $kafka_plus:" >> /etc/rsyslog.d/slicesys.conf
 
-                echo "\$InputFileName /var/log/grafana/grafana.log" >> /etc/rsyslog.d/slicesys.conf
+                            echo "\$InputFileStateFile /tmp/$clean_name" >> /etc/rsyslog.d/slicesys.conf
 
-                echo "\$InputFileTag grafana:" >> /etc/rsyslog.d/slicesys.conf
+                            echo "\$InputFileSeverity info" >> /etc/rsyslog.d/slicesys.conf
 
-                echo "\$InputFileStateFile /tmp/grafana" >> /etc/rsyslog.d/slicesys.conf
+                            echo "\$InputFileFacility local3" >> /etc/rsyslog.d/slicesys.conf
 
-                echo "\$InputFileSeverity info" >> /etc/rsyslog.d/slicesys.conf
+                            echo "\$InputRunFileMonitor" >> /etc/rsyslog.d/slicesys.conf
+		                    echo " " >> /etc/rsyslog.d/slicesys.conf
+                    done
 
-                echo "\$InputFileFacility local3" >> /etc/rsyslog.d/slicesys.conf
+                                echo "#########Device is Prime config Postgress & GrafanaLogs##########" >> /etc/rsyslog.d/slicesys.conf
+                                echo " " >> /etc/rsyslog.d/slicesys.conf
+	                 
+                                echo "######PostGres" >> /etc/rsyslog.d/slicesys.conf
+                        
+                                echo "\$InputFileName /var/log/postgresql/postgresql-10-main.log" >> /etc/rsyslog.d/slicesys.conf
 
-                echo "\$InputRunFileMonitor" >> /etc/rsyslog.d/slicesys.conf
-		        echo " " >> /etc/rsyslog.d/slicesys.conf
+                                echo "\$InputFileTag postgres10:" >> /etc/rsyslog.d/slicesys.conf
+
+                                echo "\$InputFileStateFile /tmp/postgres10" >> /etc/rsyslog.d/slicesys.conf
+
+                                echo "\$InputFileSeverity info" >> /etc/rsyslog.d/slicesys.conf
+
+                                echo "\$InputFileFacility local3" >> /etc/rsyslog.d/slicesys.conf
+
+                                echo "\$InputRunFileMonitor" >> /etc/rsyslog.d/slicesys.conf
+		                        echo " " >> /etc/rsyslog.d/slicesys.conf
+                           
+
+                                echo "########Grafana" >> /etc/rsyslog.d/slicesys.conf
+
+                                echo "\$InputFileName /var/log/grafana/grafana.log" >> /etc/rsyslog.d/slicesys.conf
+
+                                echo "\$InputFileTag grafana:" >> /etc/rsyslog.d/slicesys.conf
+
+                                echo "\$InputFileStateFile /tmp/grafana" >> /etc/rsyslog.d/slicesys.conf
+
+                                echo "\$InputFileSeverity info" >> /etc/rsyslog.d/slicesys.conf
+
+                                echo "\$InputFileFacility local3" >> /etc/rsyslog.d/slicesys.conf
+
+                                echo "\$InputRunFileMonitor" >> /etc/rsyslog.d/slicesys.conf
+		                        echo " " >> /etc/rsyslog.d/slicesys.conf
+
+                                sudo chmod a+r /var/log/grafana/grafana.log
 
 	fi
 
@@ -143,4 +148,4 @@ echo "######### Add remote destination ##########" >> /etc/rsyslog.d/slicesys.co
 
 echo "*.*  @@$syslogip:514" >> /etc/rsyslog.d/slicesys.conf
 ##############change grafana log permissions############
-sudo chmod a+r /var/log/grafana/grafana.log
+
